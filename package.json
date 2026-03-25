@@ -1,7 +1,8 @@
 {
   "scripts": {
     "frontend:dev": "npm --prefix ecommerce-ui run dev",
-    "frontend:build": "npm --prefix ecommerce-ui run build"
+    "frontend:build": "npm --prefix ecommerce-ui run build",
+    "load:sale": "docker compose --profile loadtest run --rm k6-load"
   },
   "dependencies": {
     "module-alias": "^2.3.4"

@@ -8,7 +8,10 @@ const config = {
   port: parseInt(process.env.PORT, 10) || 3003,
   nodeEnv: process.env.NODE_ENV || 'development',
   mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017/ecommerce_carts',
-  logLevel: process.env.LOG_LEVEL || 'info'
+  logLevel: process.env.LOG_LEVEL || 'info',
+  jwt: {
+    secret: process.env.JWT_SECRET || 'default_jwt_secret'
+  }
 };
 
 module.exports = config;

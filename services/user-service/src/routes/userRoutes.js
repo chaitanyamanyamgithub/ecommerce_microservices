@@ -14,10 +14,11 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const { authenticate } = require('../middleware/auth');
+const { authLimiter } = require('@shared/middleware');
 
 // Public routes (no authentication required)
-router.post('/signup', userController.signup);
-router.post('/login', userController.login);
+router.post('/signup', authLimiter, userController.signup);
+router.post('/login', authLimiter, userController.login);
 
 // Protected routes (requires valid JWT)
 router.get('/users/:id', authenticate, userController.getUserById);

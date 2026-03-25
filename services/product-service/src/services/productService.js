@@ -9,6 +9,7 @@ const Product = require('../models/Product');
 const { AppError } = require('@shared/utils');
 const { createServiceLogger } = require('@shared/logger');
 const { metrics } = require('@opentelemetry/api');
+const { cacheGet, cacheSet, cacheDelPattern } = require('@shared/cache');
 
 const logger = createServiceLogger('product-service');
 const meter = metrics.getMeter('product-service');
@@ -47,6 +48,17 @@ const getAllProducts = async (query) => {
     maxPrice
   } = query;
 
+  // Build cache key from query params
+  const cacheKey = `products:list:${category || ''}:${search || ''}:${page}:${limit}:${sort}:${minPrice || ''}:${maxPrice || ''}`;
+
+  // Try cache first
+  const cached = await cacheGet(cacheKey);
+  if (cached) {
+    catalogRequestsCounter.add(1, { route: 'list', cache: 'hit' });
+    logger.info(`Catalog cache HIT for key ${cacheKey}`);
+    return cached;
+  }
+
   // Build filter object
   const filter = { isActive: true };
 
@@ -68,10 +80,7 @@ const getAllProducts = async (query) => {
     Product.countDocuments(filter)
   ]);
 
-  catalogRequestsCounter.add(1, { route: 'list' });
-  logger.info(`Catalog returned ${products.length} products for browsing`);
-
-  return {
+  const result = {
     products,
     pagination: {
       total,
@@ -80,6 +89,13 @@ const getAllProducts = async (query) => {
       limit: Number(limit)
     }
   };
+
+  // Cache for 60 seconds
+  await cacheSet(cacheKey, result, 60);
+  catalogRequestsCounter.add(1, { route: 'list', cache: 'miss' });
+  logger.info(`Catalog cache MISS — cached ${products.length} products for 60s`);
+
+  return result;
 };
 
 /**
@@ -90,13 +106,24 @@ const getAllProducts = async (query) => {
  * @throws {AppError} 404 if product not found
  */
 const getProductById = async (productId) => {
+  const cacheKey = `products:detail:${productId}`;
+
+  // Try cache first
+  const cached = await cacheGet(cacheKey);
+  if (cached) {
+    catalogRequestsCounter.add(1, { route: 'detail', cache: 'hit' });
+    return cached;
+  }
+
   const product = await Product.findById(productId);
 
   if (!product || !product.isActive) {
     throw new AppError('Product not found', 404);
   }
 
-  catalogRequestsCounter.add(1, { route: 'detail' });
+  // Cache for 120 seconds
+  await cacheSet(cacheKey, product, 120);
+  catalogRequestsCounter.add(1, { route: 'detail', cache: 'miss' });
 
   return product;
 };
@@ -122,6 +149,10 @@ const getProductById = async (productId) => {
 const createProduct = async (productData) => {
   const product = await Product.create(productData);
   logger.info(`Created product ${product.name} with SKU ${product.sku || 'n/a'}`);
+
+  // Invalidate catalog list cache
+  await cacheDelPattern('products:list:*');
+
   return product;
 };
 
@@ -143,21 +174,36 @@ const deleteProduct = async (productId) => {
   product.isActive = false;
   await product.save();
 
+  // Invalidate caches
+  await cacheDelPattern('products:list:*');
+  await cacheDelPattern(`products:detail:${productId}`);
+
   return product;
 };
 
 /**
  * Check if all requested items have sufficient stock.
+ * Uses a single query to fetch all products at once instead of N sequential queries.
  *
  * @param {Array<{ productId: string, quantity: number }>} items
  * @returns {Promise<{ available: boolean, insufficientItems: Array }>}
  */
 const checkStock = async (items) => {
+  const productIds = items.map((item) => item.productId);
+
+  // Fetch all needed products in one query
+  const products = await Product.find({
+    _id: { $in: productIds },
+    isActive: true
+  });
+
+  const productMap = new Map(products.map((p) => [p._id.toString(), p]));
   const insufficientItems = [];
 
   for (const item of items) {
-    const product = await Product.findById(item.productId);
-    if (!product || !product.isActive) {
+    const product = productMap.get(item.productId.toString());
+
+    if (!product) {
       insufficientItems.push({
         productId: item.productId,
         requested: item.quantity,
@@ -187,22 +233,50 @@ const checkStock = async (items) => {
 };
 
 /**
- * Decrement stock for a list of purchased items.
+ * Atomically decrement stock for a list of purchased items.
+ *
+ * Uses MongoDB findOneAndUpdate with:
+ *   - $inc: { stock: -quantity }        → atomic decrement
+ *   - stock: { $gte: quantity }         → stock guard (prevents going negative)
+ *
+ * This prevents the race condition where two concurrent orders both read
+ * stock=1 and both succeed, resulting in stock=-1 (overselling).
  *
  * @param {Array<{ productId: string, quantity: number }>} items
- * @returns {Promise<void>}
+ * @returns {Promise<{ success: boolean, failedItems: Array }>}
  */
 const decrementStock = async (items) => {
+  const failedItems = [];
+
   for (const item of items) {
-    const product = await Product.findById(item.productId);
-    if (product) {
-      product.stock = Math.max(0, product.stock - item.quantity);
-      await product.save();
+    const result = await Product.findOneAndUpdate(
+      {
+        _id: item.productId,
+        isActive: true,
+        stock: { $gte: item.quantity } // Stock guard — only decrement if enough stock
+      },
+      {
+        $inc: { stock: -item.quantity } // Atomic decrement
+      },
+      { new: true }
+    );
+
+    if (!result) {
+      failedItems.push({
+        productId: item.productId,
+        quantity: item.quantity,
+        reason: 'Insufficient stock or product not found'
+      });
+      logger.warn(`Atomic stock decrement failed for product ${item.productId}`);
     }
   }
 
   stockOperationsCounter.add(1, { operation: 'decrement' });
-  logger.info(`Decremented stock for ${items.length} ordered line items`);
+  logger.info(
+    `Decremented stock for ${items.length - failedItems.length}/${items.length} line items`
+  );
+
+  return { success: failedItems.length === 0, failedItems };
 };
 
 module.exports = {

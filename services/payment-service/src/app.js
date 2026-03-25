@@ -1,5 +1,5 @@
 require('./telemetry');
-require('module-alias/register');
+require('./bootstrapAliases');
 
 /**
  * Payment Service - Application Entry Point
@@ -14,8 +14,9 @@ const helmet = require('helmet');
 const config = require('./config');
 const { connectDB } = require('./config/db');
 const { createServiceLogger } = require('@shared/logger');
-const { errorHandler, notFoundHandler, requestLogger } = require('@shared/middleware');
+const { errorHandler, notFoundHandler, requestLogger, correlationId } = require('@shared/middleware');
 const { createHttpMetricsMiddleware, registerRuntimeMetrics } = require('@shared/observability');
+const { registerGracefulShutdown } = require('@shared/utils/gracefulShutdown');
 const paymentRoutes = require('./routes/paymentRoutes');
 
 const logger = createServiceLogger('payment-service');
@@ -28,6 +29,7 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+app.use(correlationId);
 app.use(createHttpMetricsMiddleware('payment-service'));
 app.use(requestLogger(logger));
 
@@ -52,10 +54,12 @@ app.use(errorHandler);
 const startServer = async () => {
   try {
     await connectDB(logger);
-    app.listen(config.port, () => {
+    const server = app.listen(config.port, () => {
       logger.info(`Payment Service running on port ${config.port} [${config.nodeEnv}]`);
       logger.info(`Health check: http://localhost:${config.port}/health`);
     });
+
+    registerGracefulShutdown({ server, logger, serviceName: 'payment-service' });
   } catch (error) {
     logger.error(`Failed to start Payment Service: ${error.message}`);
     process.exit(1);

@@ -3,7 +3,7 @@
  * 
  * Routes:
  *   POST /payment                 - Process a payment
- *   GET  /payment/status/:orderId - Get payment status for an order
+ *   GET  /payment/status/:orderId - Get payment status
  */
 
 const express = require('express');

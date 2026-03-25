@@ -1,0 +1,80 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: ecommerce-slo-alerts
+  namespace: observability
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: multi-window-burn-rate
+      rules:
+        # ── 1. Fast Burn: 2% budget in 1 hour ──
+        # Formula: Burn Rate = (Budget Consumed / Time Window)
+        # If we want to consume 2% of budget (0.02 * allowed_errors) in 1 hour (1h/730h = 0.00137 of month)
+        # Burn Rate = 0.02 / 0.00137 = 14.6x normal rate
+        - alert: SLOFastBurn1h
+          expr: |
+            (
+              rate(http_requests_total{status=~"5.."}[1h]) 
+              / 
+              rate(http_requests_total[1h])
+            ) > (14.6 * 0.001) # Assuming 99.9% SLO (0.001 failure rate)
+            and
+            (
+              rate(http_requests_total{status=~"5.."}[5m]) 
+              / 
+              rate(http_requests_total[5m])
+            ) > (14.6 * 0.001)
+          labels:
+            severity: critical
+            service: "{{ $labels.service }}"
+          annotations:
+            summary: "Critical SLO Fast Burn on {{ $labels.service }}"
+            description: "Service is burning its error budget too fast! 2% budget burned in 1 hour. Paging on-call immediately."
+            runbook_url: "https://wiki.ecommerce.local/runbooks/slo-fast-burn"
+
+        # ── 2. Slow Burn: 5% budget in 6 hours ──
+        # Burn Rate = 0.05 / (6/730) = 6x normal rate
+        - alert: SLOSlowBurn6h
+          expr: |
+            (
+              rate(http_requests_total{status=~"5.."}[6h]) 
+              / 
+              rate(http_requests_total[6h])
+            ) > (6 * 0.001)
+            and
+            (
+              rate(http_requests_total{status=~"5.."}[30m]) 
+              / 
+              rate(http_requests_total[30m])
+            ) > (6 * 0.001)
+          labels:
+            severity: warning
+            service: "{{ $labels.service }}"
+          annotations:
+            summary: "Warning: SLO Slow Burn on {{ $labels.service }}"
+            description: "Service is burning its error budget steadily. 5% budget burned in 6 hours. Needs investigation during business hours."
+            runbook_url: "https://wiki.ecommerce.local/runbooks/slo-slow-burn"
+
+        # ── 3. Ultra-Slow Burn: 10% budget in 3 days ──
+        # Burn Rate = 0.10 / (72/730) = 1x normal rate
+        - alert: SLOUltraSlowBurn3d
+          expr: |
+            (
+              rate(http_requests_total{status=~"5.."}[3d]) 
+              / 
+              rate(http_requests_total[3d])
+            ) > (1 * 0.001)
+            and
+            (
+              rate(http_requests_total{status=~"5.."}[6h]) 
+              / 
+              rate(http_requests_total[6h])
+            ) > (1 * 0.001)
+          labels:
+            severity: info
+            service: "{{ $labels.service }}"
+          annotations:
+            summary: "Info: SLO Ultra-Slow Burn on {{ $labels.service }}"
+            description: "Service has consumed 10% of error budget over the last 3 days. Consider adding to tech debt backlog."

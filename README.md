@@ -145,6 +145,7 @@ npm run dev
 URLs:
 
 - `http://localhost:5173` - React storefront
+- `http://localhost` - API gateway
 - `http://localhost:8000` - API gateway
 
 ### 7. Observability URLs
@@ -162,6 +163,8 @@ Grafana auto-provisions:
 - Loki datasource
 - `eCommerce Observability` as the default dashboard
 - `eCommerce SLO Overview` for request rate, error rate, latency, availability, error budget, and CPU SLO views
+- `eCommerce Phase 2 - SLO & Error Budget` for 99.9% availability, error budget, burn rate, 200ms latency, and SLO compliance
+- `eCommerce Phase 2 - Golden Signals` for latency, traffic, errors, and saturation in one dashboard
 
 ### 8. Recommended Demo Flow
 
@@ -178,7 +181,33 @@ What this demonstrates:
 - traces -> Jaeger
 - logs -> Loki -> Grafana Explore
 
-### 9. Demo-Friendly Defaults
+### 9. Phase 2 Demo Flow
+
+1. Open Grafana at `http://localhost:3000`
+2. Open `eCommerce Phase 2 - SLO & Error Budget`
+3. Open `eCommerce Phase 2 - Golden Signals` in another tab
+4. Start load with `npm run load:sale`
+5. Watch traffic rise from 100 to 1000 virtual users against the product APIs
+6. In the SLO dashboard, point out:
+   - availability target at `99.9%`
+   - error budget remaining
+   - burn rate
+   - p95 latency vs the `200ms` target
+7. In the Golden Signals dashboard, point out:
+   - latency
+   - traffic
+   - errors
+   - CPU and memory saturation
+8. Use Jaeger and Grafana Explore for deep dives if latency or errors spike
+
+The k6 runner uses the API gateway inside Docker and exercises:
+
+- `GET /api/products`
+- `GET /api/products?category=electronics`
+- `GET /api/products?search=phone`
+- `GET /api/products/:id`
+
+### 10. Demo-Friendly Defaults
 
 - The product-service auto-seeds sample products when its database is empty
 - The frontend uses a fixed demo user so the cart and order flow works immediately

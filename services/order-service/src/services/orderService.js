@@ -15,6 +15,7 @@ const { createServiceLogger } = require('@shared/logger');
 const { AppError } = require('@shared/utils');
 const Order = require('../models/Order');
 const config = require('../config');
+const { createCircuitBreaker } = require('@shared/resilience/circuitBreaker');
 
 const { productService, cartService, paymentService } = config.services;
 const logger = createServiceLogger('order-service');
@@ -23,6 +24,11 @@ const tracer = trace.getTracer('order-service');
 const checkoutRequestsCounter = meter.createCounter('checkout_requests', {
   description: 'Checkout requests grouped by lifecycle status.'
 });
+
+// Configure circuit breakers for downstream services
+const productCB = createCircuitBreaker('product-service', { timeout: 3000 });
+const paymentCB = createCircuitBreaker('payment-service', { timeout: 8000 }); // Payment might be slower
+const cartCB = createCircuitBreaker('cart-service', { timeout: 2000 });
 const checkoutValueHistogram = meter.createHistogram('checkout_value', {
   description: 'Order totals processed by checkout.',
   unit: 'INR'
@@ -66,11 +72,17 @@ const createOrder = async (orderData) => {
 
       const stockData = await withSpan('checkout.check_stock', async () => {
         try {
-          const stockRes = await axios.post(`${productService}/api/products/check-stock`, { items });
+          // Use product-service circuit breaker
+          const stockRes = await productCB.fire(() => 
+            axios.post(`${productService}/api/products/check-stock`, { items })
+          );
           return stockRes.data.data;
         } catch (error) {
           if (error instanceof AppError) {
             throw error;
+          }
+          if (error.code === 'EOPENBREAKER') {
+            throw new AppError('Product service is currently unavailable (Circuit Open)', 503);
           }
 
           throw new AppError(`Product service unavailable: ${error.message}`, 503);
@@ -94,18 +106,24 @@ const createOrder = async (orderData) => {
 
       const paymentData = await withSpan('checkout.process_payment', async () => {
         try {
-          const paymentRes = await axios.post(`${paymentService}/api/payment`, {
-            orderId: order._id,
-            userId,
-            amount: totalAmount,
-            currency: 'INR',
-            method: paymentMethod
-          });
+          // Use payment-service circuit breaker
+          const paymentRes = await paymentCB.fire(() => 
+            axios.post(`${paymentService}/api/payment`, {
+              orderId: order._id,
+              userId,
+              amount: totalAmount,
+              currency: 'INR',
+              method: paymentMethod
+            })
+          );
 
           return paymentRes.data.data;
         } catch (error) {
           if (error.response && error.response.status === 402) {
             throw new AppError('Payment was declined', 402);
+          }
+          if (error.code === 'EOPENBREAKER') {
+            throw new AppError('Payment service is currently unavailable (Circuit Open)', 503);
           }
 
           throw new AppError(`Payment service unavailable: ${error.message}`, 503);
@@ -122,7 +140,9 @@ const createOrder = async (orderData) => {
 
       await withSpan('checkout.decrement_stock', async () => {
         try {
-          await axios.post(`${productService}/api/products/decrement-stock`, { items });
+          await productCB.fire(() => 
+            axios.post(`${productService}/api/products/decrement-stock`, { items })
+          );
           logger.info(`Stock decremented for order ${order.orderNumber}`);
         } catch (error) {
           logger.warn(`Stock decrement failed for order ${order.orderNumber}: ${error.message}`);
@@ -131,7 +151,9 @@ const createOrder = async (orderData) => {
 
       await withSpan('checkout.clear_cart', async () => {
         try {
-          await axios.delete(`${cartService}/api/cart/clear/${userId}`);
+          await cartCB.fire(() => 
+            axios.delete(`${cartService}/api/cart/clear/${userId}`)
+          );
           logger.info(`Cart cleared for user ${userId} after order ${order.orderNumber}`);
         } catch (error) {
           logger.warn(`Cart clear failed for order ${order.orderNumber}: ${error.message}`);

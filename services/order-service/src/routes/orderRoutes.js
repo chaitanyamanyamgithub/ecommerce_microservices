@@ -3,7 +3,7 @@
  * 
  * Routes:
  *   POST /orders          - Place a new order
- *   GET  /orders/:userId  - Get all orders for a user
+ *   GET  /orders/:userId  - Get user's orders
  */
 
 const express = require('express');

@@ -107,6 +107,14 @@ const registerRuntimeMetrics = (serviceName) => {
     description: 'CPU usage of the service process as a ratio of a single CPU core.',
     unit: '1'
   });
+  const memoryUsageGauge = meter.createObservableGauge('service_memory_usage_bytes', {
+    description: 'Resident memory used by the service process.',
+    unit: 'By'
+  });
+  const memoryUtilizationGauge = meter.createObservableGauge('service_memory_utilization_ratio', {
+    description: 'V8 heap usage as a ratio of total heap available to the service process.',
+    unit: '1'
+  });
 
   let previousCpuUsage = process.cpuUsage();
   let previousTimestamp = process.hrtime.bigint();
@@ -125,9 +133,16 @@ const registerRuntimeMetrics = (serviceName) => {
     previousCpuUsage = currentCpuUsage;
     previousTimestamp = now;
 
+    const memoryUsage = process.memoryUsage();
+    const memoryUtilizationRatio = memoryUsage.heapTotal > 0
+      ? memoryUsage.heapUsed / memoryUsage.heapTotal
+      : 0;
+
     observableResult.observe(uptimeGauge, process.uptime(), attributes);
     observableResult.observe(cpuUsageGauge, Math.max(cpuUsageRatio, 0), attributes);
-  }, [uptimeGauge, cpuUsageGauge]);
+    observableResult.observe(memoryUsageGauge, memoryUsage.rss, attributes);
+    observableResult.observe(memoryUtilizationGauge, Math.max(memoryUtilizationRatio, 0), attributes);
+  }, [uptimeGauge, cpuUsageGauge, memoryUsageGauge, memoryUtilizationGauge]);
 };
 
 module.exports = {

@@ -1,5 +1,5 @@
 require('./telemetry');
-require('module-alias/register');
+require('./bootstrapAliases');
 
 /**
  * User Service - Application Entry Point
@@ -19,8 +19,9 @@ const helmet = require('helmet');
 const config = require('./config');
 const { connectDB } = require('./config/db');
 const { createServiceLogger } = require('@shared/logger');
-const { errorHandler, notFoundHandler, requestLogger } = require('@shared/middleware');
+const { errorHandler, notFoundHandler, requestLogger, correlationId } = require('@shared/middleware');
 const { createHttpMetricsMiddleware, registerRuntimeMetrics } = require('@shared/observability');
+const { registerGracefulShutdown } = require('@shared/utils/gracefulShutdown');
 const userRoutes = require('./routes/userRoutes');
 
 // Initialize logger for this service
@@ -38,6 +39,7 @@ app.use(cors());                      // Enable Cross-Origin Resource Sharing
 // ── Body Parsing Middleware ──────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+app.use(correlationId);
 app.use(createHttpMetricsMiddleware('user-service'));
 
 // ── Request Logging ──────────────────────────────────────────
@@ -67,10 +69,13 @@ const startServer = async () => {
     await connectDB(logger);
 
     // Start Express server
-    app.listen(config.port, () => {
+    const server = app.listen(config.port, () => {
       logger.info(`User Service running on port ${config.port} [${config.nodeEnv}]`);
       logger.info(`Health check: http://localhost:${config.port}/health`);
     });
+
+    // Register graceful shutdown handlers
+    registerGracefulShutdown({ server, logger, serviceName: 'user-service' });
   } catch (error) {
     logger.error(`Failed to start User Service: ${error.message}`);
     process.exit(1);
@@ -82,7 +87,6 @@ process.on('unhandledRejection', (reason) => {
   logger.error(`Unhandled Rejection: ${reason}`);
 });
 
-// Handle uncaught exceptions
 process.on('uncaughtException', (error) => {
   logger.error(`Uncaught Exception: ${error.message}`);
   process.exit(1);
@@ -90,4 +94,4 @@ process.on('uncaughtException', (error) => {
 
 startServer();
 
-module.exports = app; // Export for testing
+module.exports = app;
