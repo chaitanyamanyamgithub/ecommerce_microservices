@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: k6-flash-sale-demo
+  namespace: ecommerce
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      labels:
+        app: k6-flash-sale-demo
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: k6
+          image: grafana/k6:0.49.0
+          args: ["run", "/scripts/flash-sale-product-browse.js"]
+          env:
+            - name: BASE_URL
+              value: "http://product-service:3002"
+            - name: STAGE_1_VUS
+              value: "25"
+            - name: STAGE_2_VUS
+              value: "75"
+            - name: STAGE_3_VUS
+              value: "150"
+            - name: STAGE_4_VUS
+              value: "250"
+            - name: STAGE_1_DURATION
+              value: "30s"
+            - name: STAGE_2_DURATION
+              value: "30s"
+            - name: STAGE_3_DURATION
+              value: "45s"
+            - name: STAGE_4_DURATION
+              value: "45s"
+            - name: STAGE_5_DURATION
+              value: "30s"
+          volumeMounts:
+            - name: script
+              mountPath: /scripts
+              readOnly: true
+      volumes:
+        - name: script
+          configMap:
+            name: k6-flash-sale-script

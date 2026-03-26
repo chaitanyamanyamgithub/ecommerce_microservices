@@ -2,7 +2,9 @@
   "scripts": {
     "frontend:dev": "npm --prefix ecommerce-ui run dev",
     "frontend:build": "npm --prefix ecommerce-ui run build",
-    "load:sale": "docker compose --profile loadtest run --rm k6-load"
+    "load:sale": "docker compose --profile loadtest run --rm k6-load",
+    "load:sale:k8s": "kubectl delete job k6-flash-sale-demo -n ecommerce --ignore-not-found && kubectl apply -k k8s/load-tests && kubectl wait --for=condition=Ready pod -l job-name=k6-flash-sale-demo -n ecommerce --timeout=120s && kubectl logs -n ecommerce job/k6-flash-sale-demo -f",
+    "load:sale:k8s:demo": "npm run load:sale:k8s"
   },
   "dependencies": {
     "module-alias": "^2.3.4"

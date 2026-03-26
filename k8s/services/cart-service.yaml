@@ -22,8 +22,13 @@ spec:
           env:
             - name: PORT
               value: "3003"
+            - name: OTEL_SERVICE_NAME
+              value: "cart-service"
             - name: MONGO_URI
-              value: "mongodb://$(MONGO_ROOT_USERNAME):$(MONGO_ROOT_PASSWORD)@mongodb:27017/ecommerce_carts?authSource=$(MONGO_AUTH_SOURCE)"
+              valueFrom:
+                secretKeyRef:
+                  name: ecommerce-secrets
+                  key: MONGO_CARTS_URI
           envFrom:
             - configMapRef:
                 name: ecommerce-config

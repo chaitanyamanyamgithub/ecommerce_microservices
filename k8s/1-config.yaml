@@ -12,7 +12,8 @@ data:
   NODE_ENV: "production"
   LOG_LEVEL: "info"
   MONGO_AUTH_SOURCE: "admin"
-  PORT: "3000"
+  JWT_EXPIRES_IN: "7d"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.observability.svc.cluster.local:4318"
 ---
 apiVersion: v1
 kind: Secret
@@ -21,7 +22,13 @@ metadata:
   namespace: ecommerce
 type: Opaque
 stringData:
-  # In a real production setup, these would be managed by ExternalSecrets/Vault
   MONGO_ROOT_USERNAME: "k8s_admin"
   MONGO_ROOT_PASSWORD: "k8s_super_secret_password"
+  MONGO_USERS_URI: "mongodb://k8s_admin:k8s_super_secret_password@mongodb.ecommerce.svc.cluster.local:27017/ecommerce_users?authSource=admin"
+  MONGO_PRODUCTS_URI: "mongodb://k8s_admin:k8s_super_secret_password@mongodb.ecommerce.svc.cluster.local:27017/ecommerce_products?authSource=admin"
+  MONGO_CARTS_URI: "mongodb://k8s_admin:k8s_super_secret_password@mongodb.ecommerce.svc.cluster.local:27017/ecommerce_carts?authSource=admin"
+  MONGO_ORDERS_URI: "mongodb://k8s_admin:k8s_super_secret_password@mongodb.ecommerce.svc.cluster.local:27017/ecommerce_orders?authSource=admin"
+  MONGO_PAYMENTS_URI: "mongodb://k8s_admin:k8s_super_secret_password@mongodb.ecommerce.svc.cluster.local:27017/ecommerce_payments?authSource=admin"
   JWT_SECRET: "k8s_production_jwt_secret_key_change_me"
+  PAYMENT_GATEWAY_KEY: "k8s_demo_payment_key"
+  PAYMENT_GATEWAY_SECRET: "k8s_demo_payment_secret"

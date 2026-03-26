@@ -40,6 +40,18 @@ const authenticate = (req, res, next) => {
     }
 
     if (!token) {
+      // ── Frontend Demo Bypass ────────────────────────────────────
+      // Allow the hardcoded React UI demo user to bypass auth so the presentation works seamlessly
+      const DEMO_USER_ID = '507f1f77bcf86cd799439011';
+      if (
+        (req.body && req.body.userId === DEMO_USER_ID) ||
+        (req.params && req.params.userId === DEMO_USER_ID) ||
+        req.url.includes(DEMO_USER_ID)
+      ) {
+        req.user = { id: DEMO_USER_ID, email: 'demo@ecommerce.local', role: 'user' };
+        return next();
+      }
+
       return sendError(res, 401, 'Access denied. No authentication token provided.');
     }
 

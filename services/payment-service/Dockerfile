@@ -1,13 +1,14 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
+COPY services/payment-service/package*.json ./
+RUN npm ci --omit=dev
 
 FROM node:20-alpine
 WORKDIR /app
 RUN addgroup -g 1001 -S nodejs && adduser -S nodeuser -u 1001
 COPY --from=builder /app/node_modules ./node_modules
-COPY . .
+COPY services/payment-service/ ./
+COPY shared/ /app/shared/
 RUN chown -R nodeuser:nodejs /app
 USER nodeuser
 EXPOSE 3005

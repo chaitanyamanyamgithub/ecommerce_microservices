@@ -1,4 +1,17 @@
-# ── MongoDB ───────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb
+  namespace: ecommerce
+spec:
+  clusterIP: None
+  selector:
+    app: mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -27,32 +40,30 @@ spec:
                   name: ecommerce-secrets
                   key: MONGO_ROOT_USERNAME
             - name: MONGO_INITDB_ROOT_PASSWORD
-               valueFrom:
+              valueFrom:
                 secretKeyRef:
                   name: ecommerce-secrets
                   key: MONGO_ROOT_PASSWORD
           volumeMounts:
             - name: mongodb-data
               mountPath: /data/db
-      volumes:
-        - name: mongodb-data
-          emptyDir: {} # For demo tracking, use PersistentVolumeClaim in strict prod
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+  volumeClaimTemplates:
+    - metadata:
+        name: mongodb-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: mongodb
-  namespace: ecommerce
-spec:
-  selector:
-    app: mongodb
-  ports:
-    - protocol: TCP
-      port: 27017
-      targetPort: 27017
-
----
-# ── Redis ─────────────────────────────────────────
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -74,6 +85,13 @@ spec:
           command: ["redis-server", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru"]
           ports:
             - containerPort: 6379
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
 ---
 apiVersion: v1
 kind: Service

@@ -36,8 +36,8 @@ services:
   # ── User Service ──────────────────────────────────────────
   user-service:
     build:
-      context: ./services/user-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./services/user-service/Dockerfile
     container_name: ecommerce-user-service
     restart: unless-stopped
     ports:
@@ -51,8 +51,6 @@ services:
       LOG_LEVEL: ${LOG_LEVEL}
       OTEL_SERVICE_NAME: user-service
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
-    volumes:
-      - ./shared:/app/shared:ro  # Mount shared utilities as read-only
     depends_on:
       mongodb:
         condition: service_healthy
@@ -62,8 +60,8 @@ services:
   # ── Product Service ───────────────────────────────────────
   product-service:
     build:
-      context: ./services/product-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./services/product-service/Dockerfile
     container_name: ecommerce-product-service
     restart: unless-stopped
     ports:
@@ -76,8 +74,6 @@ services:
       REDIS_URL: redis://redis:6379
       OTEL_SERVICE_NAME: product-service
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
-    volumes:
-      - ./shared:/app/shared:ro
     depends_on:
       mongodb:
         condition: service_healthy
@@ -87,8 +83,8 @@ services:
   # ── Cart Service ──────────────────────────────────────────
   cart-service:
     build:
-      context: ./services/cart-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./services/cart-service/Dockerfile
     container_name: ecommerce-cart-service
     restart: unless-stopped
     ports:
@@ -101,8 +97,6 @@ services:
       LOG_LEVEL: ${LOG_LEVEL}
       OTEL_SERVICE_NAME: cart-service
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
-    volumes:
-      - ./shared:/app/shared:ro
     depends_on:
       mongodb:
         condition: service_healthy
@@ -112,8 +106,8 @@ services:
   # ── Order Service ─────────────────────────────────────────
   order-service:
     build:
-      context: ./services/order-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./services/order-service/Dockerfile
     container_name: ecommerce-order-service
     restart: unless-stopped
     ports:
@@ -129,8 +123,6 @@ services:
       LOG_LEVEL: ${LOG_LEVEL}
       OTEL_SERVICE_NAME: order-service
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
-    volumes:
-      - ./shared:/app/shared:ro
     depends_on:
       mongodb:
         condition: service_healthy
@@ -140,8 +132,8 @@ services:
   # ── Payment Service ───────────────────────────────────────
   payment-service:
     build:
-      context: ./services/payment-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./services/payment-service/Dockerfile
     container_name: ecommerce-payment-service
     restart: unless-stopped
     ports:
@@ -156,8 +148,6 @@ services:
       LOG_LEVEL: ${LOG_LEVEL}
       OTEL_SERVICE_NAME: payment-service
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
-    volumes:
-      - ./shared:/app/shared:ro
     depends_on:
       mongodb:
         condition: service_healthy
@@ -263,7 +253,7 @@ services:
 
   # ── Loki (Logs Backend) ────────────────────────────────────
   loki:
-    image: grafana/loki:latest
+    image: grafana/loki:3.6.0
     container_name: ecommerce-loki
     restart: unless-stopped
     ports:
@@ -277,7 +267,7 @@ services:
 
   # ── Promtail (Log Collector) ───────────────────────────────
   promtail:
-    image: grafana/promtail:latest
+    image: grafana/promtail:3.6.0
     container_name: ecommerce-promtail
     restart: unless-stopped
     volumes:

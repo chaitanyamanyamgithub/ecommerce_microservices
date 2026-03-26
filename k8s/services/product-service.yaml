@@ -23,10 +23,15 @@ spec:
           env:
             - name: PORT
               value: "3002"
+            - name: OTEL_SERVICE_NAME
+              value: "product-service"
             - name: REDIS_URL
               value: "redis://redis:6379"
             - name: MONGO_URI
-              value: "mongodb://$(MONGO_ROOT_USERNAME):$(MONGO_ROOT_PASSWORD)@mongodb:27017/ecommerce_products?authSource=$(MONGO_AUTH_SOURCE)"
+              valueFrom:
+                secretKeyRef:
+                  name: ecommerce-secrets
+                  key: MONGO_PRODUCTS_URI
           envFrom:
             - configMapRef:
                 name: ecommerce-config

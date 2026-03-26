@@ -582,3 +582,98 @@ This project is structured to support the following production enhancements:
 ## 📝 License
 
 MIT
+
+---
+
+## Kubernetes on Kind
+
+The manifests in `k8s/services/` are already set up for local Kind images. Each service deployment uses local image names such as `ecommerce-product-service:latest` together with `imagePullPolicy: IfNotPresent`, so Kubernetes can use images that you build on your machine and load into the cluster.
+
+### Option 1. Use the helper script
+
+If your Kind cluster already exists, the fastest path is:
+
+```powershell
+.\k8s\deploy.ps1 -Cluster kind
+```
+
+That command will:
+
+- build all five service images
+- load them into Kind with `kind load docker-image`
+- apply the manifests from `k8s/`
+- wait for the datastore and service rollouts in the `ecommerce` namespace
+
+If you also need ingress-nginx and metrics-server installed into the cluster:
+
+```powershell
+.\k8s\deploy.ps1 -Cluster kind -InstallPrereqs
+```
+
+### Option 2. Run the Kind flow manually
+
+Build the local service images:
+
+```powershell
+docker build -f services/user-service/Dockerfile -t ecommerce-user-service:latest .
+docker build -f services/product-service/Dockerfile -t ecommerce-product-service:latest .
+docker build -f services/cart-service/Dockerfile -t ecommerce-cart-service:latest .
+docker build -f services/order-service/Dockerfile -t ecommerce-order-service:latest .
+docker build -f services/payment-service/Dockerfile -t ecommerce-payment-service:latest .
+```
+
+Load the images into Kind:
+
+```powershell
+kind load docker-image ecommerce-user-service:latest
+kind load docker-image ecommerce-product-service:latest
+kind load docker-image ecommerce-cart-service:latest
+kind load docker-image ecommerce-order-service:latest
+kind load docker-image ecommerce-payment-service:latest
+```
+
+Apply the Kubernetes manifests:
+
+```powershell
+kubectl apply -k k8s
+kubectl get pods -n ecommerce
+```
+
+Wait until the pods in the `ecommerce` namespace show `Running`.
+
+### Expose services locally
+
+The default service manifests are cluster-internal, so port-forwarding is the easiest way to test from your machine:
+
+```powershell
+kubectl port-forward -n ecommerce service/product-service 3000:3002
+```
+
+Then open:
+
+- `http://localhost:3000/health`
+- `http://localhost:3000/api/products`
+
+If you prefer NodePort instead, update the target service manifest in `k8s/services/` to include:
+
+```yaml
+spec:
+  type: NodePort
+```
+
+Then re-apply and inspect the assigned port:
+
+```powershell
+kubectl apply -k k8s
+kubectl get svc -n ecommerce
+```
+
+### Quick verification
+
+Use these commands to confirm the cluster is healthy:
+
+```powershell
+kubectl get pods -n ecommerce
+kubectl get svc -n ecommerce
+kubectl logs -n ecommerce deployment/product-service
+```

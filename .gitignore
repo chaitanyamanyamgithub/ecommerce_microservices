@@ -29,4 +29,6 @@ build/
 coverage/
 
 # Docker
-.dockerignore
+**/.dockerignore
+!/.dockerignore
+k8s/.deploy-overlay/

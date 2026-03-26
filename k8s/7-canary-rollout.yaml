@@ -1,10 +1,3 @@
-# ── Argo Rollout Canary Example ────────────────────────────────
-# To use this advanced deployment strategy, install the Argo Rollouts controller:
-# kubectl create namespace argo-rollouts
-# kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
-#
-# Then, replace the standard Deployment in k8s/services/user-service.yaml with this Rollout.
-
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -14,18 +7,17 @@ spec:
   replicas: 5
   strategy:
     canary:
-      # Expose the canary to traffic gradually
       steps:
-        - setWeight: 5         # 1. Start by routing 5% of traffic to the new version
-        - pause: {duration: 1m} # 2. Wait 1 minute to observe logs/metrics
-        - setWeight: 20        # 3. Increase to 20%
-        # 4. Integrate with Prometheus to automatically promote or rollback
-        #    based on Error Rate and Latency SLOs:
+        - setWeight: 5
+        - pause:
+            duration: 1m
+        - setWeight: 20
         - analysis:
             templates:
               - templateName: success-rate-slo
         - setWeight: 50
-        - pause: {duration: 2m}
+        - pause:
+            duration: 2m
         - setWeight: 100
   revisionHistoryLimit: 3
   selector:
@@ -41,6 +33,16 @@ spec:
           image: ecommerce-user-service:latest
           ports:
             - containerPort: 3001
+          env:
+            - name: PORT
+              value: "3001"
+            - name: OTEL_SERVICE_NAME
+              value: "user-service"
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: ecommerce-secrets
+                  key: MONGO_USERS_URI
           envFrom:
             - configMapRef:
                 name: ecommerce-config
@@ -53,7 +55,6 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 5
 ---
-# ── Analysis Template (SLO Gate) ──────────────────────────────
 apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
@@ -66,12 +67,12 @@ spec:
   metrics:
     - name: success-rate
       interval: 10s
-      successCondition: result[0] >= 0.99  # Require 99% success rate
-      failureLimit: 3                      # Rollback immediately on 3 failures
+      successCondition: result[0] >= 0.99
+      failureLimit: 3
       provider:
         prometheus:
           address: http://kube-prometheus-stack-prometheus.observability.svc.cluster.local:9090
           query: |
-            sum(rate(http_requests_total{service="{{args.service-name}}", status=~"2..|3.."}[1m])) 
-            / 
-            sum(rate(http_requests_total{service="{{args.service-name}}"}[1m]))
+            sum(rate(ecommerce_http_requests_total{service="{{args.service-name}}", status_code=~"2..|3.."}[1m]))
+            /
+            clamp_min(sum(rate(ecommerce_http_requests_total{service="{{args.service-name}}"}[1m])), 0.001)
