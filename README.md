@@ -152,7 +152,7 @@ URLs:
 
 After `docker-compose up -d`, open:
 
-- `http://localhost:3000` - Grafana (`admin` / `admin`)
+- `http://localhost:3010` - Grafana (`admin` / `grafana_secure_2026`)
 - `http://localhost:16686` - Jaeger
 - `http://localhost:9090` - Prometheus
 - `http://localhost:9093` - Alertmanager

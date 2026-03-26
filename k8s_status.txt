@@ -1,0 +1,26 @@
+NAME                                  READY   STATUS             RESTARTS       AGE
+pod/cart-service-668dd44f5c-mk726     1/1     Running            10 (55m ago)   11h
+pod/cart-service-668dd44f5c-xrlck     1/1     Running            10 (55m ago)   11h
+pod/k6-flash-sale-demo-8qbr7          0/1     ImagePullBackOff   0              10h
+pod/mongodb-0                         1/1     Running            2 (55m ago)    11h
+pod/order-service-68784df97-rfsmk     1/1     Running            10 (55m ago)   11h
+pod/order-service-68784df97-s2khb     1/1     Running            10 (55m ago)   11h
+pod/payment-service-d8fffd98c-qc47l   1/1     Running            10 (55m ago)   11h
+pod/payment-service-d8fffd98c-qglkq   1/1     Running            10 (55m ago)   11h
+pod/product-service-bf6dc6b99-s6hmm   1/1     Running            10 (55m ago)   11h
+pod/product-service-bf6dc6b99-wv5pq   1/1     Running            10 (55m ago)   11h
+pod/redis-697d9df744-mlpnq            1/1     Running            2 (55m ago)    11h
+pod/user-service-bcb6dc7fb-6fx2l      1/1     Running            10 (55m ago)   11h
+pod/user-service-bcb6dc7fb-xcgdv      1/1     Running            10 (55m ago)   11h
+
+NAME                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
+service/cart-service      ClusterIP   10.96.11.40     <none>        3003/TCP    11h
+service/mongodb           ClusterIP   None            <none>        27017/TCP   11h
+service/order-service     ClusterIP   10.96.90.80     <none>        3004/TCP    11h
+service/payment-service   ClusterIP   10.96.112.240   <none>        3005/TCP    11h
+service/product-service   ClusterIP   10.96.92.44     <none>        3002/TCP    11h
+service/redis             ClusterIP   10.96.204.118   <none>        6379/TCP    11h
+service/user-service      ClusterIP   10.96.101.17    <none>        3001/TCP    11h
+
+NAME                                          CLASS   HOSTS   ADDRESS   PORTS   AGE
+ingress.networking.k8s.io/ecommerce-ingress   nginx   *                 80      11h

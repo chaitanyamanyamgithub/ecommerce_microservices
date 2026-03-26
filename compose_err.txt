@@ -1,0 +1,80 @@
+docker-compose :  
+Container 
+ecommerce-alertmanager 
+Running 
+At line:1 char:1
++ docker-compose up -d 
+2>&1 | Out-File -Encoding 
+ASCII compose_err.txt
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo         
+     : NotSpecified: ( Co  
+  ntainer ecom...anager    
+ Running :String) [], R    
+emoteException
+    + FullyQualifiedErrorI 
+   d : NativeCommandError
+ 
+ Container 
+ecommerce-jaeger Running 
+ Container 
+ecommerce-mongodb Running 
+ Container ecommerce-redis 
+Running 
+ Container ecommerce-loki 
+Running 
+ Container 
+ecommerce-otel-collector 
+Running 
+ Container 
+ecommerce-order-service 
+Running 
+ Container 
+ecommerce-promtail Running 
+ Container 
+ecommerce-payment-service 
+Running 
+ Container 
+ecommerce-prometheus 
+Running 
+ Container 
+ecommerce-grafana Starting 
+ Container 
+ecommerce-mongodb Waiting 
+ Container 
+ecommerce-mongodb Waiting 
+ Container 
+ecommerce-mongodb Waiting 
+ Container 
+ecommerce-mongodb Waiting 
+ Container 
+ecommerce-mongodb Waiting 
+ Container 
+ecommerce-mongodb Healthy 
+ Container 
+ecommerce-cart-service 
+Starting 
+ Container 
+ecommerce-mongodb Healthy 
+ Container 
+ecommerce-product-service 
+Starting 
+ Container 
+ecommerce-mongodb Healthy 
+ Container 
+ecommerce-user-service 
+Starting 
+ Container 
+ecommerce-mongodb Healthy 
+ Container 
+ecommerce-mongodb Healthy 
+Error response from 
+daemon: ports are not 
+available: exposing port 
+TCP 0.0.0.0:3000 -> 
+127.0.0.1:0: listen tcp 
+0.0.0.0:3000: bind: An 
+attempt was made to access 
+a socket in a way 
+forbidden by its access 
+permissions.

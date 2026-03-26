@@ -1,0 +1,11 @@
+NAME                        IMAGE                                    COMMAND                  SERVICE           CREATED        STATUS                   PORTS
+ecommerce-alertmanager      prom/alertmanager:latest                 "/bin/alertmanager -???"   alertmanager      19 hours ago   Up 6 minutes             0.0.0.0:9093->9093/tcp, [::]:9093->9093/tcp
+ecommerce-jaeger            jaegertracing/all-in-one:latest          "/go/bin/all-in-one-???"   jaeger            19 hours ago   Up 6 minutes             0.0.0.0:16686->16686/tcp, [::]:16686->16686/tcp
+ecommerce-loki              grafana/loki:3.6.0                       "/usr/bin/loki -conf???"   loki              19 hours ago   Up 6 minutes             0.0.0.0:3100->3100/tcp, [::]:3100->3100/tcp
+ecommerce-mongodb           mongo:7.0                                "docker-entrypoint.s???"   mongodb           19 hours ago   Up 6 minutes (healthy)   0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp
+ecommerce-order-service     ecommerce_microsevices-order-service     "docker-entrypoint.s???"   order-service     10 hours ago   Up 6 minutes (healthy)   0.0.0.0:3004->3004/tcp, [::]:3004->3004/tcp
+ecommerce-otel-collector    otel/opentelemetry-collector:latest      "/otelcol --config=/???"   otel-collector    19 hours ago   Up 6 minutes             4317-4318/tcp, 55679/tcp
+ecommerce-payment-service   ecommerce_microsevices-payment-service   "docker-entrypoint.s???"   payment-service   10 hours ago   Up 6 minutes (healthy)   0.0.0.0:3005->3005/tcp, [::]:3005->3005/tcp
+ecommerce-prometheus        prom/prometheus:latest                   "/bin/prometheus --c???"   prometheus        19 hours ago   Up 6 minutes             0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp
+ecommerce-promtail          grafana/promtail:3.6.0                   "/usr/bin/promtail -???"   promtail          19 hours ago   Up 6 minutes             
+ecommerce-redis             redis:7.2-alpine                         "docker-entrypoint.s???"   redis             19 hours ago   Up 6 minutes (healthy)   0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp

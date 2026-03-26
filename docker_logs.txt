@@ -1,0 +1,163 @@
+ecommerce-product-service  | OpenTelemetry initialized for product-service
+ecommerce-cart-service     | OpenTelemetry initialized for cart-service
+ecommerce-grafana          | logger=dashboard-service t=2026-03-26T04:00:51.608570196Z level=info msg="No last resource version found, starting from scratch" orgID=1
+ecommerce-grafana          | logger=dashboard-service t=2026-03-26T04:01:21.620596448Z level=info msg="No last resource version found, starting from scratch" orgID=1
+ecommerce-product-service  | 2026-03-26 03:44:05 [32minfo[39m [product-service]: MongoDB connected: mongodb
+ecommerce-grafana          | logger=dashboard-service t=2026-03-26T04:01:51.60348414Z level=info msg="No last resource version found, starting from scratch" orgID=1
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 32#32: exit
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 35#35: exit
+ecommerce-cart-service     | 2026-03-26 03:44:03 [32minfo[39m [cart-service]: MongoDB connected: mongodb
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 37#37: exit
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 25
+ecommerce-product-service  | 2026-03-26 03:44:05 [32minfo[39m [product-service]: Demo catalog already available with 6 active products
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 25 exited with code 0
+ecommerce-product-service  | 2026-03-26 03:44:05 [32minfo[39m [product-service]: Product Service running on port 3002 [production]
+ecommerce-product-service  | 2026-03-26 03:44:05 [32minfo[39m [product-service]: Health check: http://localhost:3002/health
+ecommerce-product-service  | 2026-03-26 03:47:15 [32minfo[39m [product-service]: Decremented stock for 1/1 line items
+ecommerce-product-service  | 2026-03-26 03:47:15 [32minfo[39m [product-service]: Catalog cache MISS ??? cached 6 products for 60s
+ecommerce-cart-service     | 2026-03-26 03:44:03 [32minfo[39m [cart-service]: Cart Service running on port 3003 [production]
+ecommerce-product-service  | 2026-03-26 03:48:36 [32minfo[39m [product-service]: Catalog cache MISS ??? cached 6 products for 60s
+ecommerce-product-service  | 2026-03-26 03:48:51 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-product-service  | 2026-03-26 03:48:51 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-cart-service     | 2026-03-26 03:44:04 [32minfo[39m [cart-service]: Health check: http://localhost:3003/health
+ecommerce-user-service     | OpenTelemetry initialized for user-service
+ecommerce-cart-service     | 2026-03-26 03:47:11 [32minfo[39m [cart-service]: Added 1 x Nimbus Noise Cancelling Headphones to cart for user 507f1f77bcf86cd799439011
+ecommerce-user-service     | (node:1) [MONGOOSE] Warning: Duplicate schema index on {"email":1} found. This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
+ecommerce-user-service     | (Use `node --trace-warnings ...` to show where the warning was created)
+ecommerce-user-service     | 2026-03-26 03:44:04 [32minfo[39m [user-service]: MongoDB connected: mongodb
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 29 (SIGIO) received
+ecommerce-grafana          | logger=dashboard-service t=2026-03-26T04:02:21.615080558Z level=info msg="No last resource version found, starting from scratch" orgID=1
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 33
+ecommerce-product-service  | 2026-03-26 03:48:52 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-product-service  | 2026-03-26 03:48:52 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-product-service  | 2026-03-26 03:48:52 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-product-service  | 2026-03-26 03:48:52 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-product-service  | 2026-03-26 03:49:21 [32minfo[39m [product-service]: Decremented stock for 1/1 line items
+ecommerce-product-service  | 2026-03-26 03:49:21 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-cart-service     | 2026-03-26 03:47:15 [32minfo[39m [cart-service]: Cleared cart for user 507f1f77bcf86cd799439011
+ecommerce-product-service  | 2026-03-26 03:52:18 [32minfo[39m [product-service]: Catalog cache MISS ??? cached 6 products for 60s
+ecommerce-cart-service     | 2026-03-26 03:49:16 [32minfo[39m [cart-service]: Added 1 x Halo Desk Lamp to cart for user 507f1f77bcf86cd799439011
+ecommerce-cart-service     | 2026-03-26 03:49:21 [32minfo[39m [cart-service]: Cleared cart for user 507f1f77bcf86cd799439011
+ecommerce-cart-service     | 2026-03-26 03:58:00 [32minfo[39m [cart-service]: Added 1 x Pulse X Phone to cart for user 507f1f77bcf86cd799439011
+ecommerce-user-service     | 2026-03-26 03:44:04 [32minfo[39m [user-service]: User Service running on port 3001 [production]
+ecommerce-user-service     | 2026-03-26 03:44:04 [32minfo[39m [user-service]: Health check: http://localhost:3001/health
+ecommerce-user-service     | 2026-03-26 04:04:26 [32minfo[39m [user-service]: user-service received SIGTERM. Starting graceful shutdown...
+ecommerce-user-service     | 2026-03-26 04:04:26 [32minfo[39m [user-service]: user-service HTTP server closed ??? no new connections
+ecommerce-cart-service     | 2026-03-26 03:58:03 [32minfo[39m [cart-service]: Cleared cart for user 507f1f77bcf86cd799439011
+ecommerce-grafana          | logger=dashboard-service t=2026-03-26T04:02:51.589323501Z level=info msg="No last resource version found, starting from scratch" orgID=1
+ecommerce-cart-service     | 2026-03-26 04:01:43 [32minfo[39m [cart-service]: Added 1 x Pulse X Phone to cart for user 507f1f77bcf86cd799439011
+ecommerce-cart-service     | 2026-03-26 04:04:26 [32minfo[39m [cart-service]: cart-service received SIGTERM. Starting graceful shutdown...
+ecommerce-cart-service     | 2026-03-26 04:04:26 [32minfo[39m [cart-service]: cart-service HTTP server closed ??? no new connections
+ecommerce-grafana          | logger=dashboard-service t=2026-03-26T04:03:21.600427669Z level=info msg="No last resource version found, starting from scratch" orgID=1
+ecommerce-grafana          | logger=dashboard-service t=2026-03-26T04:03:51.573386112Z level=info msg="No last resource version found, starting from scratch" orgID=1
+ecommerce-grafana          | logger=dashboard-service t=2026-03-26T04:04:21.592703503Z level=info msg="No last resource version found, starting from scratch" orgID=1
+ecommerce-grafana          | logger=server t=2026-03-26T04:04:24.647870845Z level=info msg="Shutdown started" reason="System signal: terminated"
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.65265146Z level=info msg="module stopped" module=*updatemanager.PluginsService
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 33 exited with code 0
+ecommerce-user-service     | 2026-03-26 04:04:26 [33mwarn[39m [user-service]: MongoDB disconnected. Attempting to reconnect...
+ecommerce-user-service     | 2026-03-26 04:04:26 [32minfo[39m [user-service]: user-service MongoDB connection closed
+ecommerce-cart-service     | 2026-03-26 04:04:26 [32minfo[39m [cart-service]: cart-service MongoDB connection closed
+ecommerce-product-service  | 2026-03-26 03:52:20 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-cart-service     | 2026-03-26 04:04:26 [32minfo[39m [cart-service]: cart-service graceful shutdown complete
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.652755834Z level=info msg="module stopped" module=*migrations.SecretMigrationProviderImpl
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.652813598Z level=info msg="module stopped" module=*authimpl.UserAuthTokenService
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.653014949Z level=info msg="module stopped" module=*remotecache.RemoteCache
+ecommerce-user-service     | 2026-03-26 04:04:26 [32minfo[39m [user-service]: user-service graceful shutdown complete
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.653038534Z level=info msg="module stopped" module=*cleanup.CleanUpService
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.653302164Z level=info msg="module stopped" module=*store.standardStorageService
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.653677235Z level=info msg="module stopped" module=*service.UsageStats
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.653815853Z level=info msg="module stopped" module=*store.dummyEntityEventsService
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.65384198Z level=info msg="module stopped" module=*garbagecollectionworker.Worker
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.653856487Z level=info msg="module stopped" module=*dualwrite.ZanzanaReconciler
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.654026529Z level=info msg="module stopped" module=*metric.Service
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.654114839Z level=info msg="module stopped" module=*angulardetectorsprovider.Dynamic
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.654444747Z level=info msg="module stopped" module=*metrics.InternalMetricsService
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.654803882Z level=info msg="module stopped" module=*statscollector.Service
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.654924848Z level=info msg="module stopped" module=*rendering.RenderingService
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.65494759Z level=info msg="module stopped" module=*anonimpl.AnonDeviceService
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.655063038Z level=info msg="module stopped" module=*dynamic.KeyRetriever
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.655659041Z level=info msg="module stopped" module=*loginattemptimpl.Service
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.655775587Z level=info msg="module stopped" module=*manager.SecretsService
+ecommerce-grafana          | logger=ngalert.scheduler t=2026-03-26T04:04:24.655853661Z level=info msg=stopped component=ticker last_tick=2026-03-26T04:04:20Z
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.656163426Z level=info msg="module stopped" module=*pushhttp.Gateway
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.656162945Z level=info msg="module stopped" module=*updatemanager.GrafanaService
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.65617429Z level=info msg="module stopped" module=*authz.EmbeddedZanzanaService
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.656413974Z level=info msg="module stopped" module=*appregistry.Service
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.65649054Z level=info msg="module stopped" module=*service.DashboardUpdater
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.656572811Z level=info msg="module stopped" module=*ssosettingsimpl.Service
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.657211887Z level=info msg="module stopped" module=*supportbundlesimpl.Service
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.657337164Z level=info msg="module stopped" module=*manager.ServiceAccountsService
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 29 (SIGIO) received
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 21
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.657524089Z level=info msg="module stopped" module=*service.DashboardServiceImpl
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 21 exited with code 0
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.658039657Z level=info msg="module stopped" module=*notifications.NotificationService
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.658564372Z level=info msg="module stopped" module=*api.HTTPServer
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.659182643Z level=info msg="module stopped" module=*pluginexternal.Service
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.660019756Z level=info msg="module stopped" module=*ngalert.AlertNG
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.669039126Z level=info msg="module stopped" module=*live.GrafanaLive
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.669523117Z level=info msg="module stopped" module=provisioning
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.669618102Z level=info msg="module stopped" module=plugin.backgroundinstaller
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.674890745Z level=info msg="module stopped" module=plugins.store
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.675924784Z level=info msg="module stopped" module=grafana-apiserver
+ecommerce-grafana          | logger=tracing t=2026-03-26T04:04:24.676104865Z level=info msg="Closing tracing"
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.676205144Z level=info msg="module stopped" module=tracing
+ecommerce-grafana          | logger=backgroundsvcs.managerAdapter t=2026-03-26T04:04:24.676228524Z level=info msg="All modules stopped"
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 29 (SIGIO) received
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 37
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 37 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 29 (SIGIO) received
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 36
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 34 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 36 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 29 (SIGIO) received
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 22
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 22 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 38 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 38
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 29 (SIGIO) received
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 31
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 31 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 29 (SIGIO) received
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 30
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 23 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 28 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 30 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 32 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 35 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 29 (SIGIO) received
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 24
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 24 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 29 (SIGIO) received
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 29
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 26 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 29 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 29 (SIGIO) received
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 26
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 39 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 29 (SIGIO) received
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 27
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 27 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 29 (SIGIO) received
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: signal 17 (SIGCHLD) received from 40
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: worker process 40 exited with code 0
+ecommerce-api-gateway      | 2026/03/26 04:04:24 [notice] 1#1: exit
+ecommerce-product-service  | 2026-03-26 03:52:21 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-product-service  | 2026-03-26 03:58:03 [32minfo[39m [product-service]: Decremented stock for 1/1 line items
+ecommerce-product-service  | 2026-03-26 03:58:04 [32minfo[39m [product-service]: Catalog cache MISS ??? cached 6 products for 60s
+ecommerce-product-service  | 2026-03-26 03:58:54 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-product-service  | 2026-03-26 03:58:54 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-product-service  | 2026-03-26 03:58:54 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-product-service  | 2026-03-26 03:58:54 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-product-service  | 2026-03-26 03:58:54 [32minfo[39m [product-service]: Catalog cache HIT for key products:list:::1:10:-createdAt::
+ecommerce-product-service  | Redis client error: Socket closed unexpectedly
+ecommerce-product-service  | Redis client error: connect ECONNREFUSED 172.18.0.4:6379
+ecommerce-product-service  | Redis client error: connect ECONNREFUSED 172.18.0.4:6379
+ecommerce-product-service  | Redis client error: connect ECONNREFUSED 172.18.0.4:6379
+ecommerce-product-service  | Redis client error: connect ECONNREFUSED 172.18.0.4:6379
+ecommerce-product-service  | Redis client error: connect ECONNREFUSED 172.18.0.4:6379
+ecommerce-product-service  | 2026-03-26 04:04:26 [32minfo[39m [product-service]: product-service received SIGTERM. Starting graceful shutdown...
+ecommerce-product-service  | 2026-03-26 04:04:26 [32minfo[39m [product-service]: product-service HTTP server closed ??? no new connections
+ecommerce-product-service  | 2026-03-26 04:04:26 [33mwarn[39m [product-service]: MongoDB disconnected. Attempting to reconnect...
+ecommerce-product-service  | 2026-03-26 04:04:26 [32minfo[39m [product-service]: product-service MongoDB connection closed
+ecommerce-product-service  | 2026-03-26 04:04:26 [32minfo[39m [product-service]: product-service graceful shutdown complete

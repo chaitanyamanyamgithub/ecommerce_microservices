@@ -1,14 +1,4 @@
-# ===========================================================
-# eCommerce Microservices - Docker Compose Configuration
-# ===========================================================
-# Orchestrates all 5 microservices + MongoDB instance.
-#
-# Usage:
-#   docker-compose up -d          # Start all services
-#   docker-compose up user-service # Start specific service
-#   docker-compose down            # Stop all services
-#   docker-compose logs -f         # Follow logs
-# ===========================================================
+
 
 services:
   # ── MongoDB Database ──────────────────────────────────────
@@ -41,7 +31,7 @@ services:
     container_name: ecommerce-user-service
     restart: unless-stopped
     ports:
-      - "3001:3001"
+      - "3011:3001"
     environment:
       PORT: 3001
       NODE_ENV: ${NODE_ENV}
@@ -65,7 +55,7 @@ services:
     container_name: ecommerce-product-service
     restart: unless-stopped
     ports:
-      - "3002:3002"
+      - "3012:3002"
     environment:
       PORT: 3002
       NODE_ENV: ${NODE_ENV}
@@ -88,7 +78,7 @@ services:
     container_name: ecommerce-cart-service
     restart: unless-stopped
     ports:
-      - "3003:3003"
+      - "3013:3003"
     environment:
       PORT: 3003
       NODE_ENV: ${NODE_ENV}
@@ -285,7 +275,7 @@ services:
     container_name: ecommerce-grafana
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3010:3000"
     environment:
       GF_SECURITY_ADMIN_USER: ${GF_ADMIN_USER}
       GF_SECURITY_ADMIN_PASSWORD: ${GF_ADMIN_PASSWORD}
