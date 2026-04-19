@@ -45,7 +45,10 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "reqps"
+          "unit": "reqps",
+          "color": {
+            "mode": "continuous-GrYlRd"
+          }
         },
         "overrides": []
       },
@@ -81,7 +84,8 @@
         }
       ],
       "title": "Request Rate",
-      "type": "stat"
+      "type": "stat",
+      "transparent": true
     },
     {
       "datasource": {
@@ -90,7 +94,10 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "reqps"
+          "unit": "reqps",
+          "color": {
+            "mode": "continuous-GrYlRd"
+          }
         },
         "overrides": []
       },
@@ -126,7 +133,8 @@
         }
       ],
       "title": "5xx Error Rate",
-      "type": "stat"
+      "type": "stat",
+      "transparent": true
     },
     {
       "datasource": {
@@ -135,7 +143,10 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "s"
+          "unit": "s",
+          "color": {
+            "mode": "continuous-GrYlRd"
+          }
         },
         "overrides": []
       },
@@ -171,7 +182,8 @@
         }
       ],
       "title": "P95 Latency",
-      "type": "stat"
+      "type": "stat",
+      "transparent": true
     },
     {
       "datasource": {
@@ -180,7 +192,10 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percent"
+          "unit": "percent",
+          "color": {
+            "mode": "continuous-GrYlRd"
+          }
         },
         "overrides": []
       },
@@ -216,7 +231,8 @@
         }
       ],
       "title": "Availability",
-      "type": "stat"
+      "type": "stat",
+      "transparent": true
     },
     {
       "datasource": {
@@ -225,7 +241,10 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percent"
+          "unit": "percent",
+          "color": {
+            "mode": "continuous-GrYlRd"
+          }
         },
         "overrides": []
       },
@@ -261,7 +280,8 @@
         }
       ],
       "title": "Error Budget Remaining",
-      "type": "stat"
+      "type": "stat",
+      "transparent": true
     },
     {
       "datasource": {
@@ -270,7 +290,10 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percent"
+          "unit": "percent",
+          "color": {
+            "mode": "continuous-GrYlRd"
+          }
         },
         "overrides": []
       },
@@ -306,7 +329,8 @@
         }
       ],
       "title": "Max CPU Usage (5m)",
-      "type": "stat"
+      "type": "stat",
+      "transparent": true
     },
     {
       "datasource": {
@@ -315,7 +339,12 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percent"
+          "unit": "percent",
+          "custom": {
+            "fillOpacity": 40,
+            "gradientMode": "hue",
+            "lineWidth": 3
+          }
         },
         "overrides": []
       },
@@ -350,7 +379,8 @@
         }
       ],
       "title": "Availability by Service",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": true
     },
     {
       "datasource": {
@@ -359,7 +389,12 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "reqps"
+          "unit": "reqps",
+          "custom": {
+            "fillOpacity": 40,
+            "gradientMode": "hue",
+            "lineWidth": 3
+          }
         },
         "overrides": []
       },
@@ -394,7 +429,8 @@
         }
       ],
       "title": "Request Rate by Service",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": true
     },
     {
       "datasource": {
@@ -403,7 +439,12 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percent"
+          "unit": "percent",
+          "custom": {
+            "fillOpacity": 40,
+            "gradientMode": "hue",
+            "lineWidth": 3
+          }
         },
         "overrides": []
       },
@@ -438,7 +479,8 @@
         }
       ],
       "title": "5xx Error Rate by Service",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": true
     },
     {
       "datasource": {
@@ -447,7 +489,12 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "s"
+          "unit": "s",
+          "custom": {
+            "fillOpacity": 40,
+            "gradientMode": "hue",
+            "lineWidth": 3
+          }
         },
         "overrides": []
       },
@@ -482,7 +529,8 @@
         }
       ],
       "title": "P95 Latency by Service",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": true
     },
     {
       "datasource": {
@@ -491,7 +539,12 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percent"
+          "unit": "percent",
+          "custom": {
+            "fillOpacity": 40,
+            "gradientMode": "hue",
+            "lineWidth": 3
+          }
         },
         "overrides": []
       },
@@ -526,7 +579,8 @@
         }
       ],
       "title": "CPU Usage by Service",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": true
     }
   ],
   "refresh": "5s",

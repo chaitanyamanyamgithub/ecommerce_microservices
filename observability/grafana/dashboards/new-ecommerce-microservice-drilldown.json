@@ -1,62 +1,154 @@
 {
-  "annotations": { "list": [] },
+  "annotations": {
+    "list": []
+  },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "links": [],
   "liveNow": true,
   "panels": [
-      {
-          "title": "$service Health Profile",
-          "type": "row",
-          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 }
+    {
+      "title": "$service Health Profile",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
       },
-      {
-          "title": "CPU Usage (Cores)",
-          "type": "timeseries",
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "targets": [{ "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"ecommerce\", pod=~\"$service.*\"}[1m])) by (pod)", "legendFormat": "{{pod}}" }],
-          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 1 },
-          "fieldConfig": { "defaults": { "unit": "cores" } }
+      "transparent": true
+    },
+    {
+      "title": "CPU Usage (Cores)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       },
-      {
-          "title": "Memory Usage (Bytes)",
-          "type": "timeseries",
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "targets": [{ "expr": "sum(container_memory_usage_bytes{namespace=\"ecommerce\", pod=~\"$service.*\"}) by (pod)", "legendFormat": "{{pod}}" }],
-          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 1 },
-          "fieldConfig": { "defaults": { "unit": "bytes" } }
+      "targets": [
+        {
+          "expr": "avg(ecommerce_service_cpu_usage_ratio{service=~\"$service\"}) by (service)",
+          "legendFormat": "{{service}}"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 1
       },
-      {
-          "title": "$service Live Log Stream",
-          "type": "logs",
-          "datasource": { "type": "loki", "uid": "loki" },
-          "targets": [{ "expr": "{app=\"$service\"}" }],
-          "gridPos": { "h": 10, "w": 24, "x": 0, "y": 9 }
-      }
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cores",
+          "custom": {
+            "fillOpacity": 40,
+            "gradientMode": "hue",
+            "lineWidth": 3
+          }
+        }
+      },
+      "transparent": true
+    },
+    {
+      "title": "Memory Usage (Bytes)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "avg(ecommerce_service_memory_usage_bytes{service=~\"$service\"}) by (service)",
+          "legendFormat": "{{service}}"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "custom": {
+            "fillOpacity": 40,
+            "gradientMode": "hue",
+            "lineWidth": 3
+          }
+        }
+      },
+      "transparent": true
+    },
+    {
+      "title": "$service Live Log Stream",
+      "type": "logs",
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
+      "targets": [
+        {
+          "expr": "{job=\"docker\"} |= \"$service\""
+        }
+      ],
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "transparent": true
+    }
   ],
   "refresh": "5s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["ecommerce", "drilldown", "microservice"],
+  "tags": [
+    "ecommerce",
+    "drilldown",
+    "microservice"
+  ],
   "templating": {
-      "list": [
+    "list": [
+      {
+        "name": "service",
+        "type": "custom",
+        "options": [
           {
-              "name": "service",
-              "type": "custom",
-              "options": [
-                  { "text": "cart-service", "value": "cart-service" },
-                  { "text": "order-service", "value": "order-service" },
-                  { "text": "payment-service", "value": "payment-service" },
-                  { "text": "product-service", "value": "product-service" },
-                  { "text": "user-service", "value": "user-service" },
-                  { "text": "api-gateway", "value": "api-gateway" }
-              ],
-              "query": "cart-service,order-service,payment-service,product-service,user-service,api-gateway"
+            "text": "cart-service",
+            "value": "cart-service"
+          },
+          {
+            "text": "order-service",
+            "value": "order-service"
+          },
+          {
+            "text": "payment-service",
+            "value": "payment-service"
+          },
+          {
+            "text": "product-service",
+            "value": "product-service"
+          },
+          {
+            "text": "user-service",
+            "value": "user-service"
+          },
+          {
+            "text": "api-gateway",
+            "value": "api-gateway"
           }
-      ]
+        ],
+        "query": "cart-service,order-service,payment-service,product-service,user-service,api-gateway"
+      }
+    ]
   },
-  "time": { "from": "now-15m", "to": "now" },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
   "timezone": "browser",
   "title": "2. Ecommerce - Microservice Drilldown",
   "uid": "new-ms-drilldown-2"

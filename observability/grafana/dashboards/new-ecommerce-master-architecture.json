@@ -1,5 +1,7 @@
 {
-  "annotations": { "list": [] },
+  "annotations": {
+    "list": []
+  },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -7,79 +9,264 @@
   "links": [],
   "liveNow": true,
   "panels": [
-      {
-          "title": "Global System Health",
-          "type": "row",
-          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 }
+    {
+      "title": "Global System Health",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
       },
-      {
-          "title": "Total RPS (All Services)",
-          "type": "stat",
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "targets": [
-              { "expr": "sum(rate(http_server_duration_milliseconds_count[1m])) or sum(rate(http_requests_total[1m]))", "refId": "A" }
-          ],
-          "gridPos": { "h": 5, "w": 8, "x": 0, "y": 1 },
-          "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] } } }
+      "transparent": true
+    },
+    {
+      "title": "Total RPS (All Services)",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       },
-      {
-          "title": "Global Error Rate (5xx)",
-          "type": "stat",
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "targets": [
-              { "expr": "sum(rate(http_server_duration_milliseconds_count{http_status_code=~\"5..\"}[1m])) / sum(rate(http_server_duration_milliseconds_count[1m])) * 100", "refId": "A" }
-          ],
-          "gridPos": { "h": 5, "w": 8, "x": 8, "y": 1 },
-          "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "orange", "value": 1 }, { "color": "red", "value": 5 }] }, "unit": "percent" } }
+      "targets": [
+        {
+          "expr": "sum(rate(ecommerce_http_server_duration_milliseconds_count[1m])) or sum(rate(ecommerce_http_requests_total[1m]))",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 0,
+        "y": 1
       },
-      {
-          "title": "Infrastructure / Pods Running",
-          "type": "stat",
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "targets": [{ "expr": "sum(kube_pod_status_phase{phase=\"Running\", namespace=\"ecommerce\"})", "refId": "A" }],
-          "gridPos": { "h": 5, "w": 8, "x": 16, "y": 1 }
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        }
       },
-      {
-          "title": "Service Golden Signals",
-          "type": "row",
-          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 6 }
+      "transparent": true
+    },
+    {
+      "title": "Global Error Rate (5xx)",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       },
-      {
-          "title": "Traffic by Service (RPS)",
-          "type": "timeseries",
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "targets": [{ "expr": "sum by (job) (rate(http_server_duration_milliseconds_count[1m])) > 0", "legendFormat": "{{job}}" }],
-          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 7 }
+      "targets": [
+        {
+          "expr": "sum(rate(ecommerce_http_server_duration_milliseconds_count{http_status_code=~\"5..\"}[1m])) / sum(rate(ecommerce_http_server_duration_milliseconds_count[1m])) * 100",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 8,
+        "y": 1
       },
-      {
-          "title": "P95 Latency by Service",
-          "type": "timeseries",
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "targets": [{ "expr": "histogram_quantile(0.95, sum by (le, job) (rate(http_server_duration_milliseconds_bucket[1m])))", "legendFormat": "{{job}}" }],
-          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 7 },
-          "fieldConfig": { "defaults": { "unit": "ms" } }
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
+            ]
+          },
+          "unit": "percent"
+        }
       },
-      {
-          "title": "Error Rate by Service",
-          "type": "timeseries",
-          "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "targets": [{ "expr": "sum by (job) (rate(http_server_duration_milliseconds_count{http_status_code=~\"5..\"}[1m])) / sum by (job) (rate(http_server_duration_milliseconds_count[1m]))", "legendFormat": "{{job}}" }],
-          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 15 },
-          "fieldConfig": { "defaults": { "unit": "percentunit" } }
+      "transparent": true
+    },
+    {
+      "title": "Infrastructure / Pods Running",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       },
-      {
-          "title": "Recent Application Errors (Loki)",
-          "type": "logs",
-          "datasource": { "type": "loki", "uid": "loki" },
-          "targets": [{ "expr": "{namespace=\"ecommerce\"} |~ \"(?i)error|exception|fail\"" }],
-          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 15 }
+      "targets": [
+        {
+          "expr": "count(up)",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 1
+      },
+      "transparent": true,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          }
+        }
       }
+    },
+    {
+      "title": "Service Golden Signals",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "transparent": true
+    },
+    {
+      "title": "Traffic by Service (RPS)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "sum by (exported_job) (rate(ecommerce_http_server_duration_milliseconds_count[1m])) > 0",
+          "legendFormat": "{{exported_job}}"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 7
+      },
+      "transparent": true,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "fillOpacity": 40,
+            "gradientMode": "hue",
+            "lineWidth": 3
+          }
+        }
+      }
+    },
+    {
+      "title": "P95 Latency by Service",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum by (le, exported_job) (rate(ecommerce_http_server_duration_milliseconds_bucket[1m])))",
+          "legendFormat": "{{exported_job}}"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "custom": {
+            "fillOpacity": 40,
+            "gradientMode": "hue",
+            "lineWidth": 3
+          }
+        }
+      },
+      "transparent": true
+    },
+    {
+      "title": "Error Rate by Service",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "sum by (exported_job) (rate(ecommerce_http_server_duration_milliseconds_count{http_status_code=~\"5..\"}[1m])) / sum by (exported_job) (rate(ecommerce_http_server_duration_milliseconds_count[1m]))",
+          "legendFormat": "{{exported_job}}"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 15
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "custom": {
+            "fillOpacity": 40,
+            "gradientMode": "hue",
+            "lineWidth": 3
+          }
+        }
+      },
+      "transparent": true
+    },
+    {
+      "title": "Recent Application Errors (Loki)",
+      "type": "logs",
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
+      "targets": [
+        {
+          "expr": "{job=\"docker\"} |~ \"(?i)error|exception|fail\""
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 15
+      },
+      "transparent": true
+    }
   ],
   "refresh": "5s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["ecommerce", "overview", "system-health"],
-  "time": { "from": "now-15m", "to": "now" },
+  "tags": [
+    "ecommerce",
+    "overview",
+    "system-health"
+  ],
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
   "timezone": "browser",
   "title": "1. Ecommerce - Master Architecture",
   "uid": "new-master-arch-1"

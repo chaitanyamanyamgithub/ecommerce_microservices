@@ -83,7 +83,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(ecommerce_checkout_requests_total{status=\"confirmed\"})",
+          "expr": "sum(ecommerce_http_requests_total{service=\"order-service\", status_class=\"2xx\"})",
           "instant": true,
           "legendFormat": "",
           "range": false,
@@ -91,7 +91,8 @@
         }
       ],
       "title": "Confirmed Orders",
-      "type": "stat"
+      "type": "stat",
+      "transparent": true
     },
     {
       "datasource": {
@@ -144,7 +145,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(ecommerce_cart_requests_total{operation=\"add\"})",
+          "expr": "sum(ecommerce_http_requests_total{service=\"cart-service\", method=\"POST\"})",
           "instant": true,
           "legendFormat": "",
           "range": false,
@@ -152,7 +153,8 @@
         }
       ],
       "title": "Cart Additions",
-      "type": "stat"
+      "type": "stat",
+      "transparent": true
     },
     {
       "datasource": {
@@ -205,7 +207,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(ecommerce_payment_requests_total{status=\"completed\"})",
+          "expr": "sum(ecommerce_http_requests_total{service=\"payment-service\", status_class=\"2xx\"})",
           "instant": true,
           "legendFormat": "",
           "range": false,
@@ -213,7 +215,8 @@
         }
       ],
       "title": "Successful Payments",
-      "type": "stat"
+      "type": "stat",
+      "transparent": true
     },
     {
       "datasource": {
@@ -266,7 +269,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(ecommerce_catalog_requests_total{route=\"list\"})",
+          "expr": "sum(ecommerce_http_requests_total{service=\"product-service\", route=\"/api/products\"})",
           "instant": true,
           "legendFormat": "",
           "range": false,
@@ -274,7 +277,8 @@
         }
       ],
       "title": "Catalog Loads",
-      "type": "stat"
+      "type": "stat",
+      "transparent": true
     },
     {
       "datasource": {
@@ -293,15 +297,15 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "drawStyle": "line",
-            "fillOpacity": 12,
-            "gradientMode": "none",
+            "fillOpacity": 40,
+            "gradientMode": "hue",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 3,
             "pointSize": 4,
             "showPoints": "never",
             "spanNulls": false,
@@ -349,14 +353,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum by (operation) (rate(ecommerce_cart_requests_total[1m]))",
+          "expr": "sum by (method) (rate(ecommerce_http_requests_total{service=\"cart-service\"}[1m]))",
           "legendFormat": "{{operation}}",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "Cart Operations Rate",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": true
     },
     {
       "datasource": {
@@ -375,15 +380,15 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "drawStyle": "line",
-            "fillOpacity": 12,
-            "gradientMode": "none",
+            "fillOpacity": 40,
+            "gradientMode": "hue",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 3,
             "pointSize": 4,
             "showPoints": "never",
             "spanNulls": false,
@@ -431,14 +436,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum by (status) (rate(ecommerce_checkout_requests_total[1m]))",
+          "expr": "sum by (status_class) (rate(ecommerce_http_requests_total{service=\"order-service\"}[1m]))",
           "legendFormat": "{{status}}",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "Checkout Workflow Rate",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": true
     },
     {
       "datasource": {
@@ -457,15 +463,15 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "drawStyle": "line",
-            "fillOpacity": 12,
-            "gradientMode": "none",
+            "fillOpacity": 40,
+            "gradientMode": "hue",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 3,
             "pointSize": 4,
             "showPoints": "never",
             "spanNulls": false,
@@ -513,14 +519,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum by (status) (rate(ecommerce_payment_requests_total[1m]))",
+          "expr": "sum by (status_class) (rate(ecommerce_http_requests_total{service=\"payment-service\"}[1m]))",
           "legendFormat": "{{status}}",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "Payment Outcomes",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": true
     },
     {
       "datasource": {
@@ -557,7 +564,8 @@
         }
       ],
       "title": "Service Logs",
-      "type": "logs"
+      "type": "logs",
+      "transparent": true
     }
   ],
   "refresh": "5s",

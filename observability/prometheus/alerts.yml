@@ -10,8 +10,12 @@ groups:
 
       - record: service:error_rate_5m
         expr: |
-          sum by (service) (
-            rate(ecommerce_http_requests_total{route!="/health",status_class="5xx"}[5m])
+          (
+            sum by (service) (
+              rate(ecommerce_http_requests_total{route!="/health",status_class="5xx"}[5m])
+            )
+            or
+            (sum by (service) (rate(ecommerce_http_requests_total{route!="/health"}[5m])) * 0)
           )
           /
           clamp_min(

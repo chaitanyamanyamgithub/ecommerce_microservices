@@ -1,5 +1,7 @@
 {
-  "annotations": { "list": [] },
+  "annotations": {
+    "list": []
+  },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
@@ -9,131 +11,304 @@
     {
       "title": "Availability / Reliability (Success Rate)",
       "type": "row",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 }
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "transparent": true
     },
     {
       "title": "Declared SLO (Target)",
       "type": "stat",
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "targets": [{ "expr": "99.9", "refId": "A" }],
-      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 1 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "99.9",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "fixed", "fixedColor": "green" },
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "green"
+          },
           "unit": "percent"
         }
       },
-      "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "auto" }
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      },
+      "transparent": true
     },
     {
       "title": "Present SLI (Actual Availability)",
       "type": "stat",
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "targets": [{ "expr": "(sum(rate(http_server_duration_milliseconds_count{http_status_code!~\"5..\"}[5m])) / sum(rate(http_server_duration_milliseconds_count[5m]))) * 100", "refId": "A" }],
-      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 1 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "(sum(rate(ecommerce_http_server_duration_milliseconds_count{http_status_code!~\"5..\"}[5m])) / sum(rate(ecommerce_http_server_duration_milliseconds_count[5m]))) * 100",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "orange", "value": 99 },
-              { "color": "green", "value": 99.9 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 99
+              },
+              {
+                "color": "green",
+                "value": 99.9
+              }
             ]
           },
           "unit": "percent"
         }
       },
-      "options": { "colorMode": "background", "graphMode": "none" }
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none"
+      },
+      "transparent": true
     },
     {
       "title": "Availability Over Time (SLI vs SLO Limit)",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "targets": [{ "expr": "(sum(rate(http_server_duration_milliseconds_count{http_status_code!~\"5..\"}[1m])) / sum(rate(http_server_duration_milliseconds_count[1m]))) * 100", "legendFormat": "Actual Availability SLI" }],
-      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 1 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "(sum(rate(ecommerce_http_server_duration_milliseconds_count{http_status_code!~\"5..\"}[1m])) / sum(rate(ecommerce_http_server_duration_milliseconds_count[1m]))) * 100",
+          "legendFormat": "Actual Availability SLI"
+        }
+      ],
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "percent",
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "yellow", "value": 99.0 },
-              { "color": "green", "value": 99.9 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 99
+              },
+              {
+                "color": "green",
+                "value": 99.9
+              }
             ]
+          },
+          "custom": {
+            "fillOpacity": 40,
+            "gradientMode": "hue",
+            "lineWidth": 3
           }
         }
-      }
+      },
+      "transparent": true
     },
     {
       "title": "Performance / Latency (P95 Response Time)",
       "type": "row",
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 7 }
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "transparent": true
     },
     {
       "title": "Declared SLO (Target Limit)",
       "type": "stat",
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "targets": [{ "expr": "500", "refId": "A" }],
-      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "500",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 8
+      },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "fixed", "fixedColor": "green" },
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "green"
+          },
           "unit": "ms"
         }
       },
-      "options": { "colorMode": "background", "graphMode": "none" }
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none"
+      },
+      "transparent": true
     },
     {
       "title": "Present SLI (Actual P95 Latency)",
       "type": "stat",
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "targets": [{ "expr": "histogram_quantile(0.95, sum(rate(http_server_duration_milliseconds_bucket[5m])) by (le)) * 1000", "refId": "A" }],
-      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(ecommerce_http_server_duration_milliseconds_bucket[5m])) by (le)) * 1000",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 8
+      },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "orange", "value": 300 },
-              { "color": "red", "value": 500 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 300
+              },
+              {
+                "color": "red",
+                "value": 500
+              }
             ]
           },
           "unit": "ms"
         }
       },
-      "options": { "colorMode": "background", "graphMode": "none" }
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none"
+      },
+      "transparent": true
     },
     {
       "title": "Latency Over Time (SLI vs SLO Target)",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "targets": [{ "expr": "histogram_quantile(0.95, sum(rate(http_server_duration_milliseconds_bucket[1m])) by (le)) * 1000", "legendFormat": "Actual P95 SLI (ms)" }],
-      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(ecommerce_http_server_duration_milliseconds_bucket[1m])) by (le)) * 1000",
+          "legendFormat": "Actual P95 SLI (ms)"
+        }
+      ],
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "ms",
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 300 },
-              { "color": "red", "value": 500 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 300
+              },
+              {
+                "color": "red",
+                "value": 500
+              }
             ]
+          },
+          "custom": {
+            "fillOpacity": 40,
+            "gradientMode": "hue",
+            "lineWidth": 3
           }
         }
-      }
+      },
+      "transparent": true
     }
   ],
   "refresh": "10s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["ecommerce", "slo", "sli", "error-budget"],
-  "time": { "from": "now-30m", "to": "now" },
+  "tags": [
+    "ecommerce",
+    "slo",
+    "sli",
+    "error-budget"
+  ],
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
   "timezone": "browser",
   "title": "3. Ecommerce - SLO vs SLI Scorecard",
   "uid": "new-ecommerce-slo-sli",
